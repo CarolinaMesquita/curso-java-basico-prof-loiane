@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templates/template.xhtml">
+	<ui:define name="pageTitle">Produtos</ui:define>
+	<ui:define name="pageHeader">Cadastro de Produtos</ui:define>
+	<ui:define name="body">
+		<h:form id="edicao">
+			<h:messages />
+			<h:inputHidden
+				value="#{produtoController.produtoSelecionado.idProduto}" />
+
+			<h:panelGrid columns="2">
+
+				<h:outputLabel value="Nome:" />
+				<h:inputText id="nome"
+					value="#{produtoController.produtoSelecionado.nome}"
+					required="true" />
+
+				<h:outputLabel value="Unidade:" />
+				<h:inputText id="unidade"
+					value="#{produtoController.produtoSelecionado.unidade}"
+					required="true" />
+
+				<h:outputLabel value="Data Cadastro:" />
+				<h:inputText
+					value="#{produtoController.produtoSelecionado.dataCadastro}">
+
+				</h:inputText>
+
+
+				<h:outputLabel value="Estoque:" />
+				<h:inputText value="#{produtoController.produtoSelecionado.estoque}" />
+
+				<h:outputLabel value="Renda:" />
+				<h:inputText value="#{produtoController.produtoSelecionado.valor}">
+					<f:convertNumber minFractionDigits="2" />
+				</h:inputText>
+
+			</h:panelGrid>
+
+			<h:commandButton value="Salvar" action="#{produtoController.salvar}" />
+			<h:commandButton value="Novo Produto"
+				action="#{produtoController.novo}" />
+
+		</h:form>
+
+		<h:form id="lista">
+			<h:dataTable value="#{produtoController.listarTodos}" var="produto"
+				border="1" rendered="#{not empty produtoController.listarTodos}">
+				<f:facet name="header">Listagem de Produto</f:facet>
+
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+			#{produto.nome}
+			</h:column>
+
+				<h:column>
+					<f:facet name="header">Unidade</f:facet>
+			#{produto.unidade}
+			</h:column>
+
+				<h:column>
+					<f:facet name="header">Descrição</f:facet>
+			#{produto.descricao}
+			</h:column>
+
+				<h:column>
+					<f:facet name="header">Valor</f:facet>
+
+					<h:outputText value="#{produto.valor}">
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">AÃ§Ãµes</f:facet>
+					<h:commandLink action="#{produtoController.excluir}"
+						onclick="if (!confirm('Deseja realmente excluir o produto #{produto.nome}?')) return false;">
+						<h:graphicImage library="imagens" name="remove-icon.png" />
+						<f:setPropertyActionListener
+							target="#{produtoController.produtoSelecionado}" value="#{produto}" />
+					</h:commandLink>
+					<h:commandLink>
+						<h:graphicImage library="imagens" name="wrench-icon.png" />
+						<f:setPropertyActionListener
+							target="#{produtoController.produtoSelecionado}" value="#{produto}" />
+					</h:commandLink>
+
+				</h:column>
+
+			</h:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

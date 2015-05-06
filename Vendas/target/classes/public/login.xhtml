@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="/templates/template.xhtml">
+	<ui:define name="corpo">
+
+
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="j_username" class="col-lg-2 control-label">Login</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="j_username"
+								name="j_username"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="j_password" class="col-lg-2 control-label">Senha</label>
+						<div class="col-lg-10">
+							<input type="password" class="form-control" id="j_password"
+								name="j_password"></input>
+							<div class="checkbox">
+								<label> <input name="_spring_security_remember_me"
+									type="checkbox"></input> Entrar automaticamente
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<h:form>
+							<h:commandButton class="btn btn-success"
+								action="#{usuarioController.novo()}" value="Registre-se" />
+						</h:form>
+						<h:panelGroup rendered="#{!empty param.login_error}">
+							<span style="font-color: red">Erro ao efetuar o login</span>
+							<br />
+							<br />
+Motivo:#{SPRING_SECURITY_LAST_EXPECTION.message}
+</h:panelGroup>
+						<input class="btn btn-primary pull-right" type="submit"
+							value="Entrar" />
+					</div>
+					<script>
+						document.getElementById("login").j_username.value="#{SPRING_SECURITY_LAST_USERNAME}";
+					</script>
+				</form>
+
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+		<h:form>
+			<h:commandButton action="#{usuarioController.novo()}"
+				value="Registre-se" />
+		</h:form>
+
+		<h:panelGroup rendered="#{!empty param.login_error}">
+			<span style="font-color: red">Erro ao efetuar o login</span>
+			<br />
+			<br />
+Motivo:#{SPRING_SECURITY_LAST_EXPECTION.message}
+</h:panelGroup>
+		<from id="login" method="post"
+			action="#{request.contextPath}/j_spring_security_check">
+		<table>
+			<tr>
+				<td>Login</td>
+				<td><input type="text" name="j_username" /></td>
+			</tr>
+			<tr>
+				<td>Senha</td>
+				<td><input type="text" name="j_password" /></td>
+			</tr>
+			<tr>
+				<td align="right"><input type="checkbox"
+					name="_spring_security_remember_me" /></td>
+				<td>Entrar automaticamente</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="Entrar" /></td>
+			</tr>
+		</table>
+		<script>
+document.getElementById("login").j_username.value="#{SPRING_SECURITY_LAST_USERNAME}";</script>
+		</from>
+	</ui:define>
+</ui:composition>
+</html>

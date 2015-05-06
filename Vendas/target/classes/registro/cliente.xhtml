@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<ui:composition template="/templates/template.xhtml">
+	<ui:define name="pageTitle">Cadastro de Clientes</ui:define>
+	<ui:define name="pageHeader">Cadastro de Clientes</ui:define>
+	<ui:define name="corpo">
+	
+		<h:form id="edicao">
+		
+			<h:messages />
+			<h:inputHidden
+				value="#{clienteController.clienteSelecionado.idCliente}" />
+			<div class="form-group">
+                  <label class="control-label" for="disabledInput">Nome:</label>
+                  <input class="form-control" id="nome" type="text" placeholder="Nome" value="#{clienteController.clienteSelecionado.nome}" required="true"/>
+                </div>
+			
+			<div class="form-group">
+                  <label class="control-label" for="disabledInput">CPF:</label>
+                  <input class="form-control" id="cpf" type="text" placeholder="CPF" value="#{clienteController.clienteSelecionado.cpf}" >
+                	 <!--   <f:validator validatorId="cpf" />-->
+                  </input>
+                </div>
+             <div class="form-group">
+                  <label class="control-label" for="disabledInput">Endereço:</label>
+                  <input class="form-control" id="endereco" type="text" placeholder="Endereço" value="#{clienteController.clienteSelecionado.endereco}" />
+                </div>
+             
+             <div class="form-group">
+                  <label class="control-label" for="disabledInput">Email:</label>
+                  <input class="form-control" id="email" type="text" placeholder="E-mail" value="#{clienteController.clienteSelecionado.email}" required="true"/>
+                </div>
+                
+               <div class="form-group">
+                  <label class="control-label" for="disabledInput">Renda:</label>
+                  <input class="form-control" id="renda" type="text" placeholder="Renda" value="#{clienteController.clienteSelecionado.renda}" required="true">
+                  <!--  <f:convertNumber minFractionDigits="2" />-->
+                  </input>
+                </div>
+			
+
+			<h:commandButton class="btn btn-success" value="Salvar" action="#{clienteController.salvar}" />
+			<h:commandButton  class="btn btn-primary pull-right" value="Novo Cliente"
+				action="#{clienteController.novo}" />
+
+		</h:form>
+
+		<h:form id="lista">
+			<h:dataTable class="table table-striped table-hover " value="#{clienteController.listarTodos}" var="cliente"
+			>
+				<h1><f:facet name="header">Listagem de Clientes</f:facet></h1>
+
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{cliente.nome}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">CPF</f:facet>
+					<h:outputText value="#{cliente.cpf}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Cadastro</f:facet>
+					<h:outputText value="#{cliente.dataCadastro}">
+						<f:convertDateTime dateStyle="medium" />
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Endereço</f:facet>
+					<h:outputText value="#{cliente.endereco}" />
+				</h:column>
+				
+
+				<h:column>
+					<f:facet name="header">E-Mail</f:facet>
+					<h:outputText value="#{cliente.email}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Renda</f:facet>
+
+					<h:outputText value="#{cliente.renda}">
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</h:outputText>
+				</h:column>
+				<h:column>
+
+					<f:facet name="header">AÃ§Ãµes</f:facet>
+					<h:commandLink action="#{clienteController.excluir}"
+						onclick="if (!confirm('Deseja realmente excluir o cliente #{cliente.nome}?')) return false;">
+						<h:graphicImage library="imagens" name="remove-icon.png" />
+						<f:setPropertyActionListener
+							target="#{clienteController.clienteSelecionado}" value="#{cliente}" />
+					</h:commandLink>
+					<h:commandLink action="#{clienteController.alterar}">
+						<h:graphicImage library="imagens" name="wrench-icon.png" />
+						<f:setPropertyActionListener
+							target="#{clienteController.clienteSelecionado}"
+							value="#{cliente}" />
+					</h:commandLink>
+
+				</h:column>
+
+			</h:dataTable>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
